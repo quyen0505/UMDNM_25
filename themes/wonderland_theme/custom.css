@@ -1,0 +1,16 @@
+/* Custom styles cho Wonderland Theme */
+body {
+font-family: "Segoe UI", sans-serif;
+}
+
+
+.navbar-sticky {
+position: sticky;
+top: 0;
+z-index: 1030;
+}
+
+
+.card-img-top.object-fit-cover {
+object-fit: cover;
+}

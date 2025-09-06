@@ -1,8 +1,4 @@
-<?php
-/**
- * Header template
- */
-?><!doctype html>
+<!doctype html>
 <html <?php language_attributes(); ?>>
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
@@ -10,40 +6,61 @@
   <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
-<header class="navbar navbar-expand-lg navbar-light bg-light navbar-sticky">
-  <div class="container">
-    <?php wonderland_site_brand(); ?>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <nav class="collapse navbar-collapse" id="primaryNav">
-      <?php
-      wp_nav_menu([
-        'theme_location' => 'primary',
-        'container'      => false,
-        'menu_class'     => 'navbar-nav ms-auto mb-2 mb-lg-0',
-        'fallback_cb'    => function () {
-          echo '<ul class="navbar-nav ms-auto"><li class="nav-item"><a class="nav-link" href="' . esc_url(admin_url('nav-menus.php')) . '">Add Menu</a></li></ul>';
-        },
-        'walker'         => new class extends Walker_Nav_Menu {
-          // Walker nhỏ để thêm class Bootstrap
-          function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
-            $classes = empty($item->classes) ? [] : (array) $item->classes;
-            $classes[] = 'nav-item';
-            $class_names = join(' ', array_filter($classes));
-            $atts = ' class="nav-link"';
-            $output .= '<li class="' . esc_attr($class_names) . '"><a' . $atts . ' href="' . esc_url($item->url) . '">' . esc_html($item->title) . '</a>';
-          }
-          function end_el(&$output, $item, $depth = 0, $args = null) { $output .= '</li>'; }
-        }
-      ]);
-      ?>
-
-      <a class="btn btn-outline-primary ms-lg-3" href="<?php echo esc_url(wp_login_url()); ?>">Đăng nhập Admin</a>
-    </nav>
+<div class="cc">
+<header>
+  <!-- Top bar -->
+  <div class="top-bar d-flex justify-content-between align-items-center py-2">
+    <div class="contact-info">
+      <span class="phone me-3">
+        <i class="fa fa-phone"></i> +123 4567 789
+      </span>
+      <span class="email">
+        <i class="fa fa-envelope"></i> QuyenWander@techonology.com
+      </span>
+    </div>
+    <div class="social-links">
+      <span class="me-2">Socials</span>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
   </div>
 </header>
-<main class="main py-4">
+
+<header class="main-header py-3">
   <div class="container">
+    <div class="header-layout d-flex justify-content-between align-items-center">
+      <!-- Menu trái -->
+      <nav class="menu-left">
+        <?php
+        wp_nav_menu([
+            'theme_location' => 'left-menu',
+            'container'      => false,
+            'menu_class'     => 'nav',
+            'fallback_cb'    => false,
+        ]);
+        ?>
+      </nav>
+
+      <!-- Logo giữa -->
+      <div class="site-branding mx-4">
+        <?php wonderland_site_brand(); ?>
+      </div>
+
+      <!-- Menu phải -->
+      <nav class="menu-right">
+        <?php
+        wp_nav_menu([
+            'theme_location' => 'right-menu',
+            'container'      => false,
+            'menu_class'     => 'nav',
+            'fallback_cb'    => false,
+        ]);
+        ?>
+      </nav>
+    </div>
+  </div>
+</header>
+</div>

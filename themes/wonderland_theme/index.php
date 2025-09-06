@@ -24,7 +24,6 @@
     <?php the_posts_pagination(['mid_size' => 2]); ?>
   </nav>
 <?php else : ?>
-  <div class="alert alert-info">Chưa có bài viết.</div>
 <?php endif; ?>
 
 <?php get_footer(); ?>

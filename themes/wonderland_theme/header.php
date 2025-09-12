@@ -7,31 +7,30 @@
 </head>
 <body <?php body_class(); ?>>
 
-<div class="cc">
-<header>
-  <!-- Top bar -->
-  <div class="top-bar d-flex justify-content-between align-items-center py-2">
-    <div class="contact-info">
-      <span class="phone me-3">
-        <i class="fa fa-phone"></i> +123 4567 789
-      </span>
-      <span class="email">
-        <i class="fa fa-envelope"></i> QuyenWander@techonology.com
-      </span>
-    </div>
-    <div class="social-links">
-      <span class="me-2">Socials</span>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-youtube"></i></a>
-    </div>
+<!-- ===== Top Bar ===== -->
+<div class="top-bar d-flex justify-content-between align-items-center py-1">
+  <div class="contact-info d-flex align-items-center">
+    <span class="phone me-2">
+      <i class="fa fa-phone"></i> +123 4567 789
+    </span>
+    <span class="email me-0">
+      <i class="fa fa-envelope"></i> QuyenWander@techonology.com
+    </span>
   </div>
-</header>
+  <div class="social-links d-flex align-items-center">
+    <span class="me-2">Socials</span>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-twitter"></i></a>
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-youtube"></i></a>
+  </div>
+</div>
 
-<header class="main-header py-3">
+<!-- ===== Main Header ===== -->
+<header class="main-header py-2 navbar-sticky">
   <div class="container">
     <div class="header-layout d-flex justify-content-between align-items-center">
+
       <!-- Menu trái -->
       <nav class="menu-left">
         <?php
@@ -46,7 +45,13 @@
 
       <!-- Logo giữa -->
       <div class="site-branding mx-4">
-        <?php wonderland_site_brand(); ?>
+        <?php
+        if (function_exists('the_custom_logo')) {
+            the_custom_logo();
+        } else {
+            echo '<a href="' . esc_url(home_url('/')) . '">' . get_bloginfo('name') . '</a>';
+        }
+        ?>
       </div>
 
       <!-- Menu phải -->
@@ -60,7 +65,7 @@
         ]);
         ?>
       </nav>
+
     </div>
   </div>
 </header>
-</div>

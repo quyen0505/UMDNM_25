@@ -1,147 +1,120 @@
 <?php
+/**
+ * Wonderland Theme Functions
+ * Author: Quyền
+ * Version: 1.0
+ */
 
 if (!defined('ABSPATH')) {
-    exit; // Thoát nếu file được truy cập trực tiếp
+    exit; // Exit if accessed directly
 }
 
-// 1) Thiết lập theme + hỗ trợ logo tùy chỉnh
-add_action('after_setup_theme', function () {
-    // Tải ngôn ngữ
-    load_theme_textdomain('wonderland_theme', get_template_directory() . '/languages');
-
-    // Hỗ trợ tiêu đề và hình đại diện
-    add_theme_support('title-tag');
-    add_theme_support('post-thumbnails');
-
-    // Hỗ trợ logo tùy chỉnh
-    add_theme_support('custom-logo', [
-        'height'      => 120,
-        'width'       => 120,
-        'flex-height' => true,
-        'flex-width'  => true,
-        'header-text' => ['site-title', 'site-description'],
-    ]);
-
-    // Đăng ký các menu location
-    register_nav_menus([
-        'left-menu'   => __('Left Menu', 'wonderland_theme'),
-        'right-menu'  => __('Right Menu', 'wonderland_theme'),
-        'primary'     => __('Primary Menu', 'wonderland_theme'), // Menu cho mobile
-    ]);
-});
-
-// 2) Nạp Bootstrap CDN và custom.css
+// =============== Enqueue Scripts & Styles ===============
 add_action('wp_enqueue_scripts', function () {
     $theme_version = wp_get_theme()->get('Version');
 
-    // Nạp Bootstrap CSS
+    // Bootstrap CSS
     wp_enqueue_style(
-        'bootstrap',
+        'bootstrap-css',
         'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
         [],
-        '5.3.3',
-        'all'
+        '5.3.3'
     );
 
-    // Nạp Font Awesome
+    // Font Awesome
     wp_enqueue_style(
         'fontawesome',
-        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css',
+        'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
         [],
-        '7.0.1',
-        'all'
+        '5.15.4'
     );
 
-    // Nạp CSS tùy chỉnh (custom.css nằm ngoài cùng thư mục theme)
+    // Custom CSS
     wp_enqueue_style(
         'wonderland-custom',
         get_template_directory_uri() . '/custom.css',
-        ['bootstrap'],
-        $theme_version,
-        'all'
+        ['bootstrap-css', 'fontawesome'],
+        $theme_version
     );
 
-    // Nạp Bootstrap JS
+    // Bootstrap JS (bundle có Popper, cần cho Carousel, Modal, Dropdown…)
     wp_enqueue_script(
-        'bootstrap',
+        'bootstrap-js',
         'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
-        ['jquery'],
+        [],
         '5.3.3',
         true
     );
-
-    // Đảm bảo jQuery được nạp (nếu cần)
-    wp_enqueue_script('jquery');
 });
 
-// 3) Kích thước ảnh tùy chỉnh
-add_action('after_setup_theme', function () {
-    add_image_size('hero-xl', 1920, 600, true);
-    add_image_size('card-md', 800, 450, true);
-}, 11);
-
-// 4) In logo hoặc tên site
-function wonderland_site_brand()
-{
-    if (function_exists('the_custom_logo') && has_custom_logo()) {
-        the_custom_logo();
-    } else {
-        echo '<a class="navbar-brand fw-bold" href="' . esc_url(home_url('/')) . '" rel="home">' . esc_html(get_bloginfo('name')) . '</a>';
-    }
+function enqueue_custom_styles() {
+    wp_enqueue_style('custom-style', get_template_directory_uri() . '/style.css');
 }
+add_action('wp_enqueue_scripts', 'enqueue_custom_styles');
 
-// 5) Logo trang đăng nhập
-add_action('login_enqueue_scripts', function () {
-    $logo_id = get_theme_mod('custom_logo');
-    if ($logo_id) {
-        $src = wp_get_attachment_image_src($logo_id, 'full');
-        if (!empty($src[0])) {
-            echo '<style type="text/css">
-                .login h1 a {
-                    background-image: url(' . esc_url($src[0]) . ') !important;
-                    background-size: contain !important;
-                    width: 100% !important;
-                    height: 80px !important;
-                    background-repeat: no-repeat !important;
-                }
-            </style>';
+// =============== Theme Supports ===============
+add_action('after_setup_theme', function () {
+    // Hỗ trợ title tag
+    add_theme_support('title-tag');
+
+    // Hỗ trợ post thumbnail
+    add_theme_support('post-thumbnails');
+
+    // Hỗ trợ custom logo
+    add_theme_support('custom-logo', [
+        'height'      => 100,
+        'width'       => 300,
+        'flex-width'  => true,
+        'flex-height' => true,
+    ]);
+
+    // Đăng ký menu
+    register_nav_menus([
+        'left-menu'   => __('Left Menu', 'wonderland_theme'),
+        'right-menu'  => __('Right Menu', 'wonderland_theme'),
+        'footer-menu' => __('Footer Menu', 'wonderland_theme'),
+    ]);
+});
+
+// =============== Hàm hiển thị Logo / Tên site ===============
+if (!function_exists('wonderland_site_brand')) {
+    function wonderland_site_brand() {
+        if (has_custom_logo()) {
+            the_custom_logo();
+        } else {
+            ?>
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="site-title text-decoration-none">
+                <?php bloginfo('name'); ?>
+            </a>
+            <?php
         }
     }
-});
-
-// Thêm trang Options cho ACF
-if( function_exists('acf_add_options_page') ) {
-    acf_add_options_page([
-        'page_title'    => 'Cài đặt giao diện',
-        'menu_title'    => 'Cài đặt giao diện',
-        'menu_slug'     => 'theme-settings',
-        'capability'    => 'edit_posts',
-        'redirect'      => false
-    ]);
-
-    // Trang con dành cho Footer
-    acf_add_options_sub_page([
-        'page_title'    => 'Cài đặt Footer',
-        'menu_title'    => 'Footer',
-        'parent_slug'   => 'theme-settings',
-    ]);
 }
 
-add_filter('login_headerurl', function () {
-    return esc_url(home_url('/'));
-});
+// =============== Customizer (Footer Logo) ===============
+add_action('customize_register', function ($wp_customize) {
+    $wp_customize->add_section('wonderland_footer_section', [
+        'title'    => __('Footer Settings', 'wonderland_theme'),
+        'priority' => 120,
+    ]);
 
-add_filter('login_headertext', function () {
-    return esc_html(get_bloginfo('name'));
-});
+    $wp_customize->add_setting('wonderland_footer_logo');
 
-// 6) Tắt Gutenberg, bật Classic Editor
+    $wp_customize->add_control(new WP_Customize_Image_Control(
+        $wp_customize,
+        'wonderland_footer_logo',
+        [
+            'label'    => __('Footer Logo', 'wonderland_theme'),
+            'section'  => 'wonderland_footer_section',
+            'settings' => 'wonderland_footer_logo',
+        ]
+    ));
+});
+// Tắt Gutenberg, bật Classic Editor
 add_filter('use_block_editor_for_post', '__return_false', 10);
 
-// 7) Tắt trình soạn thảo khối trong widget (WP 5.8+)
+// Tắt trình soạn thảo khối trong widget (WP 5.8+)
 add_filter('use_widgets_block_editor', '__return_false');
 
-// 8) Tối ưu hóa thêm (tùy chọn)
-add_action('wp_head', function () {
-    echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
-}, 1);
+// // Tắt admin bar trên frontend
+// add_filter('show_admin_bar', '__return_false');

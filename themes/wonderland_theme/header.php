@@ -10,12 +10,8 @@
 <!-- ===== Top Bar ===== -->
 <div class="top-bar d-flex justify-content-between align-items-center py-1">
   <div class="contact-info d-flex align-items-center">
-    <span class="phone me-2">
-      <i class="fa fa-phone"></i> +123 4567 789
-    </span>
-    <span class="email me-0">
-      <i class="fa fa-envelope"></i> QuyenWander@techonology.com
-    </span>
+    <span class="phone me-2"><i class="fa fa-phone"></i> +123 4567 789</span>
+    <span class="email"><i class="fa fa-envelope"></i> QuyenWander@techonology.com</span>
   </div>
   <div class="social-links d-flex align-items-center">
     <span class="me-2">Socials</span>
@@ -30,7 +26,6 @@
 <header class="main-header py-2 navbar-sticky">
   <div class="container">
     <div class="header-layout d-flex justify-content-between align-items-center">
-
       <!-- Menu trái -->
       <nav class="menu-left">
         <?php
@@ -65,7 +60,8 @@
         ]);
         ?>
       </nav>
-
     </div>
   </div>
 </header>
+
+

@@ -18,6 +18,7 @@
 
 body.admin-bar {
     margin-top: 10px !important;
+    background-color: #fff;
 }
 
 @media screen and (max-width: 782px) {
@@ -45,7 +46,7 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 8px 20px;
-    background: rgba(0, 0, 0, 0.0);
+    background: transparent;
     color: #fff;
     font-size: 14px;
     position: fixed;
@@ -54,40 +55,44 @@ body {
     right: 0;
     width: 95%;
     z-index: 1003;
-    opacity: 1;
     margin: 0 auto;
-}
-
-.top-bar .contact-info {
-    display: flex;
-    align-items: center;
-    margin: 0;
-}
-
-.top-bar .contact-info span {
-    margin-right: 10px;
-    opacity: 0.85;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .top-bar .contact-info span i {
     margin-right: 6px;
 }
 
-.top-bar .social-links {
-    display: flex;
-    align-items: center;
-}
-
 .top-bar .social-links a {
-    color: #fff;
+    color: inherit;
     margin-left: 10px;
     opacity: 0.8;
     transition: opacity 0.3s ease;
 }
-
 .top-bar .social-links a:hover {
     opacity: 1;
 }
+@media (max-width: 480px) {
+  .top-bar {
+    flex-direction: column;
+    text-align: center;
+    font-size: 11px;
+    gap: 8px;
+    padding: 5px 10px;
+  }
+  .top-bar .contact-info,
+  .top-bar .social-links {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .top-bar .social-links a {
+    font-size: 18px; /* icon to hơn để dễ bấm */
+  }
+}
+
 
 /* ============================
  * Header chính (Navbar)
@@ -97,13 +102,17 @@ body {
     top: 29px;
     left: 0;
     right: 0;
-    width: 95%;
+    width: 100%;
     z-index: 1002;
-    background: rgba(0, 0, 0, 0.0);
-    padding: 10px 0;
+    background: transparent;
+    padding: 15px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     border-bottom: 1px solid rgba(255, 255, 255, 0.3);
     margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
 }
 
 .main-header .header-layout {
@@ -113,19 +122,6 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-}
-
-.menu-left,
-.menu-right {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.menu-left li,
-.menu-right li {
-    margin: 0 15px;
 }
 
 .menu-left li a,
@@ -139,20 +135,86 @@ body {
     padding: 5px 10px;
     transition: color 0.3s ease;
 }
-#menu-item-28 a ,
 .menu-left li a:hover,
 .menu-right li a:hover {
-    color: #59815B;
+    color: #F1F1E7;
 }
 
-.site-branding {
-    text-align: center;
-}
-
+/* Logo */
 .site-branding img,
 .site-branding svg {
     width: 150px;
     height: auto;
+    transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+  .main-header.navbar-sticky {
+    padding: 8px 15px;
+    justify-content: space-between;
+  }
+  .site-branding img {
+    width: 100px; /* nhỏ lại */
+  }
+  /* Ẩn menu desktop */
+  .menu-left, .menu-right {
+    display: none;
+  }
+  /* Nút hamburger */
+  .mobile-menu-toggle {
+    display: block;
+    font-size: 28px;
+    cursor: pointer;
+    color: inherit;
+  }
+  /* Menu mobile */
+  .navbar-mobile {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    z-index: 999;
+  }
+  .navbar-mobile a {
+    color: #000 !important;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+  }
+  .navbar-mobile.active {
+    display: flex;
+  }
+}
+
+/* ==== Khi scroll xuống ==== */
+body.scrolled .top-bar {
+    background: #fff;
+    color: #000;
+}
+
+body.scrolled .main-header.navbar-sticky {
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 0;
+}
+
+body.scrolled .menu-left li a,
+body.scrolled .menu-right li a {
+    color: #000;
+}
+body.scrolled .menu-left li a:hover,
+body.scrolled .menu-right li a:hover {
+    color: #555;
+}
+
+body.scrolled .site-branding img {
+  background: url();
+    width: 120px;
 }
 
 /* ============================
@@ -256,331 +318,155 @@ body {
         font-size: 1rem;
     }
 }
-
-/* ============================
- * Logo Section
- * ============================ */
+@media (max-width: 768px) {
+  .full-screen-slider {
+    height: 60vh;
+  }
+  .carousel-caption h1 {
+    font-size: 1.6rem;
+  }
+  .carousel-caption p {
+    font-size: 0.9rem;
+  }
+  .carousel-caption .btn {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+/* Logo Section */
 .logo-section {
-    padding: 40px 0;
-    background: #fff;
-    text-align: center;
+  padding: 20px 0;
 }
 
 .logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 80px;
-}
-
-.logo-img {
-    max-width: 150px;
-    height: auto;
-}
-.logo-img:hover {
-    opacity: 0.4;
-    transition: opacity 0.3s ease;
-}
-
-/* ==== Top bar & Header mặc định ==== */
-.top-bar,
-.main-header.navbar-sticky {
-    position: fixed;
-    left: 0;
-    right: 0;
-    width: 100%;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px); /* Safari */
-    margin: auto;
-}
-
-/* Top bar mặc định */
-.top-bar {
-    top: 0;
-    background: rgba(0, 0, 0, 0.0);
-    padding: 8px 0;
-}
-
-/* Header mặc định */
-.main-header.navbar-sticky {
-    top: 29px; /* nằm dưới top bar */
-    background: rgba(0, 0, 0, 0.0);
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Logo mặc định */
-.main-header.navbar-sticky .logo img {
-    max-height: 60px;
-    transition: all 0.3s ease;
-}
-
-/* Menu mặc định */
-.main-header.navbar-sticky .navbar-nav {
-    transition: all 0.3s ease;
-}
-
-/* ==== Khi scroll xuống ==== */
-body.scrolled .top-bar {
-    background: rgba(255, 255, 255, 0.3); /* đậm hơn chút */
-    backdrop-filter: blur(12px); 
-    -webkit-backdrop-filter: blur(12px);
-    padding: 5px 0;
-}
-
-body.scrolled .main-header.navbar-sticky {
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 8px 0;
-}
-
-/* Logo thu nhỏ */
-body.scrolled .main-header.navbar-sticky .logo img {
-    max-height: 40px;
-}
-
-/* Menu thu nhỏ */
-body.scrolled .main-header.navbar-sticky .navbar-nav {
-    transform: scale(0.9);
-}
-
-
-.home-heading .sub-heading {
-  font-family: Muli, sans-serif;
-  font-style: italic;
-  color: #878787;
-  margin-bottom: 10px;
-  font-size: 21;
-  line-height: 25.2px;
-}
-
-.home-heading .main-heading {
-  font-size: 36px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.home-heading .main-heading span {
-  background: #e5eadf; /* nền nhạt */
-  color: #3f6b3f;      /* chữ xanh */
-  padding: 0 6px;
-}
-/* Travel Section */
-.travel-section {
-    text-align: center;
-    background-color: #f9f9f9;
-    padding: 20px 0;
-    background-size: cover;
-    background-position: center;
-    padding: 80px 0;
-    font-family: Arial, sans-serif;
-    background-color: white;
-}
-
-.travel-section .container {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 0 15px;
-}
-
-.travel-posts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-    min-height: 1px;
-}
-
-.travel-post {
-    max-width: 500px;
-    text-align: left;
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    min-height: 100px;
-}
-
-.travel-image img {
-    width: 100%;
-    border-radius: 8px 8px 0 0;
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.travel-meta {
-    font-size: 14px;
-    color: #777;
-    margin: 10px 0;
-    padding: 10px 15px;
-    background-color: #f1f1f1;
-}
-
-.travel-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 10px 0;
-    padding: 0 15px;
-}
-
-.travel-title a {
-    color: #333;
-    text-decoration: none;
-}
-.travel-title a:hover {
-    color: #28a745;
-}
-
-.readmore {
-  display: inline-flex;
+  display: flex;
+  justify-content: center;  
   align-items: center;
-  gap: 6px;
-  margin-top: 10px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #333;           /* chữ đen */
-  background: none;      /* không nền */
-  border: none;
-  padding: 0;
-  transition: all 0.3s ease;
-}
-.readmore:hover {
-    color: #fff;
-    background-color: #218838;
-}
-.readmore::after,
-.readmore1::after {
-  content: "↗";
-  font-size: 0.9em;
-  opacity: 0;
-  transform: translateX(-5px);
-  transition: all 0.3s ease;
-}
-.readmore:hover,
-.readmore1:hover {
-  color: #28a745;
-}
-.readmore:hover::after,.readmore1:hover::after {
-  opacity: 1;
-  transform: translateX(3px);
+  gap: 40px;   
+  flex-wrap: wrap;
 }
 
-.main-heading {
-    font-size: 3em;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 50px;
-    color: #333;
-}
-.highlight {
-    color: #8ac08e;
+.logo-container img.logo-img {
+  max-height: 95px; 
+  transition: opacity 0.3s ease;
 }
 
-.travel-post-container {
-    display: flex;
-    align-items: center;
-    gap: 40px;
+.logo-container img.logo-img:hover {
+  opacity: 0.7; 
 }
 
-.travel-image-wrapper {
-    flex: 1;
-}
-.travel-image-wrapper img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
+/* ===========================
+   Responsive cho mobile
+   =========================== */
+@media (max-width: 768px) {
+  .logo-container {
+    gap: 20px;   
+  }
+
+  .logo-container img.logo-img {
+    max-height: 60px;      
+  }
 }
 
-.travel-content {
-    flex: 1;
+@media (max-width: 480px) {
+  .logo-container {
+    gap: 15px;            
+  }
+
+  .logo-container img.logo-img {
+    max-height: 50px; 
+  }
 }
 
-.travel-meta .date {
-    font-weight: bold;
-}
-
-.travel-title {
-    font-size: 1.8em;
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0 0 15px 0;
-    color: #333;
-}
-
-.travel-excerpt {
-    font-size: 1em;
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 25px;
-}
-
-.readmore-btn {
-    text-transform: uppercase;
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    display: inline-block;
-}
-/* Travel Section1 */
-.travel-section1 {
-    text-align: center;
-    margin: 50px auto;
-    background-color: #f9f9f9;
-    padding: 20px 0;
-    background-size: cover;
-    background-position: center;
+/* ============================= */
+/* Travel Section                */
+/* ============================= */
+.post-2 {
+    background: url('https://yourdomain.com/path/to/bg.jpg') no-repeat center center/cover;
     padding: 80px 0;
     font-family: Arial, sans-serif;
-    background-color: white;
 }
 
-.travel-section1 .container {
+.post-2 .container {
     max-width: 1140px;
     margin: 0 auto;
     padding: 0 15px;
 }
 
-.travel-posts1 {
+.travel-posts-wrapper {
     display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-    min-height: 1px;
+    flex-direction: column;  /* xếp dọc 2 bài */
+    gap: 60px;
+      max-width: 1140px;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .travel-post-container,
+  .travel-post-container1 {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .travel-title, .travel-title1 {
+    font-size: 1.4rem;
+  }
+  .travel-excerpt, .travel-excerpt1 {
+    font-size: 0.95rem;
+  }
 }
 
-.travel-post1 {
-    max-width: 500px;
-    text-align: left;
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    min-height: 100px;
+
+/* Post container chung */
+.travel-post-container,
+.travel-post-container1 {
+  display: flex;
+  align-items: stretch;
+  gap: 40px;
 }
 
-.travel-image1 img {
+.travel-image-wrapper,
+.travel-image-wrapper1,
+.travel-content,
+.travel-content1 {
+  flex: 1;
+}
+/* Container 1 = ảnh trái, text phải */
+.travel-post-container {
+    flex-direction: row ;
+}
+
+
+/* Ảnh */
+.travel-image-wrapper,
+.travel-image-wrapper1 {
+    flex: 1;
+}
+.travel-image-wrapper img,
+.travel-image-wrapper1 img {
     width: 100%;
-    border-radius: 8px 8px 0 0;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
-.travel-image img:hover,
-.travel-image1 img:hover {
-  transform: rotate(-3deg) scale(1.03);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+.travel-image-wrapper img:hover {
+    transform: rotate(-3deg) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
 }
+.travel-image-wrapper1 img:hover {
+    transform: rotate(3deg) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* Nội dung */
+.travel-content,
+.travel-content1 {
+    flex: 1;
+    text-align: left;
+}
+
+/* Meta */
+.travel-meta,
 .travel-meta1 {
     font-size: 14px;
     color: #777;
@@ -590,92 +476,36 @@ body.scrolled .main-header.navbar-sticky .navbar-nav {
 }
 .travel-meta span,
 .travel-meta1 span {
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
 }
 .travel-meta span:hover,
 .travel-meta1 span:hover {
-  text-decoration: underline;
-  cursor: pointer;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
-.travel-title1 {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 10px 0;
-    padding: 0 15px;
-}
-
-.travel-title1 a {
-    color: #333;
-    text-decoration: none;
-}
-.travel-title1 a:hover {
-    color: #28a745;
-}
-
-.readmore1 {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 10px;
-  font-weight: bold;
-  text-decoration: none;
-  color: #333;           /* chữ đen */
-  background: none;      /* không nền */
-  border: none;
-  padding: 0;
-  transition: all 0.3s ease;
-}
-.readmore1:hover {
-    color: #fff;
-    background-color: #218838;
-}
-
-.main-heading1 {
-    font-size: 3em;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 50px;
-    color: #333;
-}
-.highlight1 {
-    color: #8ac08e;
-}
-
-.travel-post-container1 {
-    display: flex;
-    align-items: center;
-    max-width: 76%;
-    gap: 40px;
-    margin: 0 auto;
-}
-
-.travel-image-wrapper1 {
-    flex: 1;
-}
-.travel-image-wrapper1 img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: cover;
-}
-
-.travel-content1 {
-    flex: 1;
-}
-
-.travel-meta1 .date {
-    font-weight: bold;
-}
-
+/* Title */
+.travel-title,
 .travel-title1 {
     font-size: 1.8em;
     font-weight: 700;
     line-height: 1.2;
     margin: 0 0 15px 0;
+    padding: 0 15px;
     color: #333;
 }
+.travel-title a,
+.travel-title1 a {
+    color: #333;
+    text-decoration: none;
+}
+.travel-title a:hover,
+.travel-title1 a:hover {
+    color: #28a745;
+}
 
+/* Excerpt */
+.travel-excerpt,
 .travel-excerpt1 {
     font-size: 1em;
     line-height: 1.6;
@@ -683,10 +513,885 @@ body.scrolled .main-header.navbar-sticky .navbar-nav {
     margin-bottom: 25px;
 }
 
-.readmore-btn1 {
-    text-transform: uppercase;
+/* Read more */
+.readmore-btn, .readmore-btn1 {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: bold;
     text-decoration: none;
     color: #333;
-    font-weight: bold;
-    display: inline-block;
+    transition: all 0.3s ease;
+}
+.readmore-btn i, .readmore-btn1 i {
+    font-size: 0.85rem;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.3s ease;
+}
+.readmore-btn:hover, .readmore-btn1:hover {
+    color: #28a745;
+}
+.readmore-btn:hover i, .readmore-btn1:hover i {
+    opacity: 1;
+    transform: translateX(3px);
+}
+
+
+/*  */
+.newsletter-section {
+  background: url("https://wanderland.qodeinteractive.com/wp-content/uploads/2019/10/h5-bckg-img-02.jpg?id=1249") no-repeat center center/cover;
+  padding: 80px 0;
+  padding-top: 65px !important;
+  height: 100vh;
+}
+.newsletter-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 70px;
+}
+.newsletter-image {
+  flex: 1;
+  text-align: center;
+}
+.newsletter-image img {
+  max-width: 100%;
+  height: auto;
+}
+.newsletter-content {
+  flex: 1;
+}
+.newsletter-subtitle {
+  font-style: italic;
+  color: #777;
+  margin-bottom: 10px;
+  font-family: Muli, sans-serif;
+}
+.newsletter-title {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 20px;
+  font-family: Oswald, sans-serif;
+color: #1E1E1E;
+}
+.newsletter-title .highlight {
+  background: #fff;
+  color: #2c7a3f;
+  padding: 0 6px;
+  font-weight: 700;
+}
+.newsletter-desc {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 25px;
+  font-family : Muli, sans-serif;
+}
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+.newsletter-form input[type="text"],
+.newsletter-form input[type="email"] {
+  min-width: 200px;
+  height: 52px; /* cùng chiều cao nút */
+  padding: 0 16px;
+  border: none;
+  background: #fff;
+  font-size: 15px;
+  color: #333;
+  border-radius: 2px;
+  outline: none;
+  box-sizing: border-box;
+}
+.newsletter-form input::placeholder {
+  color: #777;
+  font-style: italic;
+}
+.newsletter-submit {
+  height: 52px;
+  background: #2c7a3f;
+  color: #fff;
+  border: none;
+  padding: 0 26px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+  margin-top : 10px;
+}
+.newsletter-submit:hover {
+  background: #256b36;
+}
+.newsletter-submit::after {
+  content: "↗";
+  font-size: 0.9em;
+}
+.newsletter-form .acf-field {
+  margin: 0 !important;
+  flex: 1;
+}
+.newsletter-form input::placeholder {
+  color: #999;
+  font-style: italic;
+}
+.newsletter-form input:focus {
+  box-shadow: 0 0 0 2px #2c7a3f33;
+}
+.newsletter-form label {
+  display: none !important;
+}
+/* Bố cục ngang */
+.newsletter-form form {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: nowrap; 
+}
+.newsletter-form .acf-fields {
+  display: contents; /* bỏ wrap cứng của ACF */
+}
+@media (max-width: 768px) {
+  .newsletter-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+  .newsletter-form form {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .newsletter-submit {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ==== Featured Blog Posts Section ==== */
+.featured-posts {
+  text-align: center;
+  margin: 80px 0;
+  background: url("https://wanderland.qodeinteractive.com/wp-content/uploads/2019/10/h1-bckg-02.jpg?id=102") no-repeat center center/cover;
+margin-top: 0 ;
+}
+
+.featured-posts .subtitle {
+  font-style: italic;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.featured-posts .section-title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: black;
+}
+
+.featured-posts .section-title span {
+  background: #2c7a3f;
+  color: #fff;
+  padding: 0 8px;
+}
+
+/* Swiper wrapper */
+.featured-slider {
+  overflow: hidden;
+    width: 100%;
+}
+
+.featured-slide {
+    text-align: left;
+  background:none ;
+  overflow: hidden;
+  box-shadow: none;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.featured-slide:hover {
+  transform: translateY(-5px);
+}
+
+/* Image hover tilt effect */
+.featured-image {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+    text-align: center;
+}
+
+.featured-image img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.5s ease;
+}
+
+.featured-slide:hover .featured-image img {
+  transform: scale(1.05);
+}
+.swiper-button-prev,
+.swiper-button-next {
+  color: #000;   /* đổi icon thành màu đen */
+  z-index: 10;   /* đảm bảo nằm trên ảnh */
+    width: 40px;
+  height: 40px;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 28px; /* chỉnh kích thước mũi tên */
+  font-weight: bold;
+}
+
+
+/* Tilt effect theo hướng chuột */
+.featured-image:hover img {
+  transform: perspective(800px) rotateY(var(--rotateX,0deg)) rotateX(var(--rotateY,0deg)) scale(1.05);
+}
+
+/* Badge category styled like a tag */
+.featured-image .post-category {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #f9f7f4;
+  border: 1px solid #ddd;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-style: italic;
+  border-radius: 3px;
+}
+
+/* Meta */
+.featured-slide .post-meta {
+  font-size: 14px;
+  color: #777;
+  margin: 15px 20px 10px;
+  display: flex;
+  gap: 15px;
+}
+
+.featured-slide .post-meta span {
+  transition: all 0.3s ease;
+}
+
+/* Title */
+.featured-slide .post-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.featured-slide .post-title a {
+  color: #222;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.featured-slide .post-title a:hover,
+.featured-slide .post-meta span:hover {
+  text-decoration: underline;
+}
+
+/* Swiper navigation buttons */
+.featured-posts .swiper-button-prev,
+.featured-posts .swiper-button-next { 
+  font-weight: bold;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  top: 40%;
+}
+
+.featured-posts .swiper-button-prev {
+  left: -60px; /* đẩy ra ngoài */
+}
+
+.featured-posts .swiper-button-next {
+  right: -60px; /* đẩy ra ngoài */
+}
+
+.featured-posts .swiper-button-prev:hover,
+.featured-posts .swiper-button-next:hover {
+  background: #2c7a3f;
+  color: #fff;
+}
+
+
+/* ===== Travel Items Section ===== */
+.travel-essentials-section {
+  text-align: center;
+  margin: 80px 0 0;
+  background: url("https://wanderland.qodeinteractive.com/wp-content/uploads/2019/10/h5-bckg-img-02.jpg?id=1249") no-repeat center center/cover;
+  height: 1000px;
+}
+.post-2 {
+  background: url("https://wanderland.qodeinteractive.com/wp-content/uploads/2019/10/h1-bckg-02.jpg?id=102");
+}
+.travel-essentials-section .subtitle {
+  font-style: Muli, sans-serif;
+  color: #878787;
+  margin-bottom: 5px;
+  font-size: 21px;
+}
+
+.travel-essentials-section .section-title {
+  font-size: 50px;
+  font-family: Oswald, sans-serif;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: black;
+}
+
+.travel-essentials-section .section-title span {
+  background: #2c7a3f;
+  color: #fff;
+  padding: 0 8px;
+}
+
+/* ===== Travel Items Grid ===== */
+.travel-items {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+/* Item */
+.travel-item {
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .travel-items {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  .travel-item {
+    flex: 0 0 45%;
+  }
+}
+@media (max-width: 480px) {
+  .travel-item {
+    flex: 0 0 100%;
+  }
+}
+
+
+/* Khung ảnh */
+.travel-item-image {
+  position: relative;
+  background: #ECEBE1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 260px;
+  overflow: hidden;
+}
+
+.travel-item-image img {
+  max-height: 200px;
+  width: auto;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  position: relative;
+  display: block;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+/* Ảnh normal + hover */
+.travel-item-image .normal-img,
+.travel-item-image .hover-img {
+  max-height: 200px;
+  width: auto;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 0 auto;
+}
+/* Hover image ẩn mặc định */
+.travel-item-image .hover-img {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.travel-item:hover .normal-img {
+  opacity: 0;
+}
+.travel-item:hover .hover-img {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* Overlay + Button */
+.travel-item .overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  background: rgba(0,0,0,0.25);
+  transition: opacity 0.3s ease;
+  z-index: 5;
+    background: transparent; /* bỏ nền đen */
+}
+.travel-item:hover .overlay {
+  opacity: 1;
+}
+.travel-item .btn-add {
+  background: #3b5d2a;
+  color: #fff;
+  padding: 10px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* Giá */
+.travel-item .price {
+  font-style: italic;
+  font-size: 16px;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+/* Tên sản phẩm */
+.travel-item .title {
+  font-family: Muli, sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  transition: color 0.3s ease;
+  color: #000;
+}
+.travel-item:hover .title {
+  color: #2c7a3f;
+}
+
+/* Rating sao */
+.stars {
+  font-size: 14px;
+  color: #ccc;
+  margin-top: 8px;
+  transition: color 0.3s ease;
+}
+.stars .active {
+  color: #3b5d2a;
+}
+.travel-item:hover .stars {
+  color: #2c7a3f;
+}
+.text-center {
+    text-align: center !important;
+    margin-top: 80px;
+}
+
+/* */
+.home-icons {
+  margin: 60px auto;
+  width: 100%;
+}
+
+.home-icons .icon-box {
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.home-icons .icon-img {
+  position: relative;
+  width: 70px;       /* chỉnh kích thước icon */
+  height: 70px;
+  margin: 0 auto 12px;
+}
+
+.home-icons .icon-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.3s ease;
+}
+
+.home-icons .icon-img .icon-hover {
+  opacity: 0;
+}
+
+.home-icons .icon-box:hover .icon-hover {
+  opacity: 1;
+}
+
+.home-icons .icon-box:hover .icon-default {
+  opacity: 0;
+}
+
+/* chữ nhỏ phía trên */
+.home-icons .text-top {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 3px;
+  font-family: Muli, sans-serif;
+}
+
+/* chữ lớn phía dưới */
+.home-icons .text-bottom {
+  font-size: 22px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000;
+  margin: 0;
+  transition: color 0.3s ease;
+  font-family: Muli, sans-serif;
+}
+
+.home-icons .icon-box:hover {
+  color: #2a7d2e;
+}
+
+
+
+.post-3{
+  background: url("https://wanderland.qodeinteractive.com/wp-content/uploads/2019/10/h1-bckg-02.jpg?id=102");
+}
+.blog-feature {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* trái 2 phần, phải 1 phần */
+  gap: 40px;
+  margin: 60px auto;
+  max-width: 1200px;
+}
+@media (max-width: 768px) {
+  .blog-feature {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .left-column {
+    grid-template-columns: 1fr;
+  }
+  .right-column {
+    order: -1; /* đẩy lên trên */
+  }
+}
+
+/* Cột trái */
+.left-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* 2 cột */
+  gap: 20px;
+}
+
+.post-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.post-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  transform-origin: center;
+  transition: transform 0.4s ease;
+}
+
+.post-card:hover img {
+  transform: scale(1.08); /* zoom nhẹ khi hover */
+}
+
+/* Meta (date, author) */
+.post-card .meta {
+  font-size: 14px;
+  color: #777;
+  margin: 8px 0;
+}
+
+.post-card .meta a {
+  color: #777;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.post-card .meta a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* Tiêu đề */
+.post-card .title {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.3;
+  margin: 0 0 10px;
+}
+
+.post-card .title a {
+  color: #111;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.post-card .title a:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* Cột phải (Feature Box) */
+.right-column .feature-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.feature-box .kicker {
+  font-family: Muli, sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 400;
+  letter-spacing: normal;
+  color: #878787;
+  margin-bottom: 10px;
+}
+
+.feature-box .feature-title {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: Oswald, sans-serif;
+  color: #000;
+  line-height: 1.2;
+}
+
+.feature-box .feature-title a {
+  color: #111;
+      font-size: 34px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.feature-box .excerpt {
+  color: #555;
+  font-size: 15px;
+  line-height: 1.6;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.site-content {
+  flex: 1; /* đẩy footer xuống cuối */
+}
+
+.site-footer {
+  background: #1e1e1e;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.footer-widgets {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.footer-col {
+  max-width: 250px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-title {
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-size: 22px;
+  letter-spacing: 1px;
+      font-family: oswald, sans-serif;
+      text-align: left;
+}
+
+.footer-date {
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+.footer-news {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+    text-align: left;
+}
+
+.footer-news li {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #ccc;
+}
+
+.footer-news li:hover {
+  color: #fff;
+}
+.footer-news .news-date {
+  color: #8fbc8f; /* màu xanh nhạt */
+  font-style: italic;
+  margin-right: 8px;
+  font-size: 13px;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+    text-align: left;
+}
+
+.newsletter-form input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #aaa;
+  padding: 8px 5px;
+  color: #fff;
+  font-style: italic;
+  transition: border-color 0.3s;
+}
+
+.newsletter-form input:focus {
+  border-color: #fff;
+  outline: none;
+}
+
+.newsletter-form input::placeholder {
+  color: #aaa;
+}
+
+.newsletter-form button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 0;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s;
+}
+
+/* .newsletter-form button:hover {
+  background: #fff;
+  color: #000;
+} */
+/* .newsletter-form button::after {
+  content: "↗";
+  font-size: 14px;
+  transition: transform 0.3s, content 0.3s;
+}
+.newsletter-form button:hover::after {
+  content: "→";
+} */
+
+.footer-bottom {
+  border-top: 1px solid #333;
+  padding: 15px 0;
+  font-size: 14px;
+  color: #aaa;
+}
+  
+/* Responsive */
+@media (max-width: 768px) {
+  .footer-widgets {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .footer-col {
+    max-width: 100%;
+  }
+
+  .newsletter-form {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+/* */
+.faq-hero {
+  position: relative;
+  background-size: 170%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100vh;
+    padding-top: 80px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+
+}
+
+.faq-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.faq-content {
+  position: relative;
+  z-index: 2;
+}
+
+.faq-title {
+  font-size: 60px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.faq-hero .faq-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;     /* canh giữa theo chiều dọc */
+  justify-content: flex-start; /* canh trái theo chiều ngang */
+  height: 100%;
+  width: 100%;
+  text-align: left;
+  padding-left: 60px;      /* khoảng cách lề trái */
+  color: #fff;
 }

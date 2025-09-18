@@ -64,8 +64,3 @@ jobs:
           # (Tùy) reload web server nếu cần
           sudo systemctl reload nginx || sudo systemctl reload apache2 || true
           EOF
-          - name: Debug SSH
-          run: |
-            ssh -vvv -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo '✅ SSH OK'"
-

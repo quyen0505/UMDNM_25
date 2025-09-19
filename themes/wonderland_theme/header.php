@@ -26,42 +26,73 @@
 <header class="main-header py-2 navbar-sticky">
   <div class="container">
     <div class="header-layout d-flex justify-content-between align-items-center">
-      <!-- Menu trái -->
-      <nav class="menu-left">
+
+      <!-- Menu trái (desktop) -->
+      <nav class="menu-left d-none d-md-flex">
         <?php
         wp_nav_menu([
             'theme_location' => 'left-menu',
             'container'      => false,
-            'menu_class'     => 'nav',
+            'menu_class'     => 'nav menu-left-items',
             'fallback_cb'    => false,
         ]);
         ?>
       </nav>
 
-      <!-- Logo giữa -->
-      <div class="site-branding mx-4">
-        <?php
-        if (function_exists('the_custom_logo')) {
-            the_custom_logo();
-        } else {
-            echo '<a href="' . esc_url(home_url('/')) . '">' . get_bloginfo('name') . '</a>';
+      <!-- Logo -->
+<div class="site-branding">
+  <a href="<?php echo esc_url(home_url('/')); ?>">
+    <?php
+    // Logo mặc định (WordPress Customizer)
+    if (function_exists('the_custom_logo')) {
+        $custom_logo_id = get_theme_mod('custom_logo');
+        $logo_light = wp_get_attachment_image_src($custom_logo_id, 'full');
+        if ($logo_light) {
+            echo '<img src="' . esc_url($logo_light[0]) . '" alt="Logo" class="logo-light">';
         }
-        ?>
-      </div>
+    } else {
+        echo get_bloginfo('name');
+    }
+    ?>
+    <!-- Logo khi scroll -->
+    <img src="<?php echo get_template_directory_uri(); ?>/assets/images/custom-logo.png" alt="Logo" class="logo-dark">
+  </a>
+</div>
 
-      <!-- Menu phải -->
-      <nav class="menu-right">
+
+
+      <!-- Menu phải (desktop) -->
+      <nav class="menu-right d-none d-md-flex">
         <?php
         wp_nav_menu([
             'theme_location' => 'right-menu',
             'container'      => false,
-            'menu_class'     => 'nav',
+            'menu_class'     => 'nav menu-right-items',
             'fallback_cb'    => false,
         ]);
         ?>
       </nav>
+
+      <!-- Nút hamburger (mobile) -->
+      <button class="mobile-menu-toggle d-md-none" aria-label="Menu">&#9776;</button>
     </div>
   </div>
+
+  <!-- Menu mobile (gom cả 2 menu) -->
+  <nav class="navbar-mobile">
+    <?php
+      wp_nav_menu([
+          'theme_location' => 'left-menu',
+          'container'      => false,
+          'menu_class'     => 'nav-mobile',
+          'fallback_cb'    => false,
+      ]);
+      wp_nav_menu([
+          'theme_location' => 'right-menu',
+          'container'      => false,
+          'menu_class'     => 'nav-mobile',
+          'fallback_cb'    => false,
+      ]);
+    ?>
+  </nav>
 </header>
-
-

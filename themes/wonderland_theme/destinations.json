@@ -1,174 +1,75 @@
 {
-    "key": "group_home_blog_section",
-    "title": "Home Blog Section",
-    "fields": [
+  "key": "group_travel_layout",
+  "title": "Travel Layout",
+  "fields": [
+    {
+      "key": "field_travel_title",
+      "label": "Travel Title",
+      "name": "travel_title",
+      "type": "text"
+    },
+    {
+      "key": "field_travel_intro",
+      "label": "Travel Introduction",
+      "name": "travel_intro",
+      "type": "textarea"
+    },
+    {
+      "key": "field_travel_images",
+      "label": "Travel Images",
+      "name": "travel_images",
+      "type": "gallery",
+      "instructions": "Upload 2 images",
+      "required": 0
+    },
+    {
+      "key": "field_sidebar_image",
+      "label": "Sidebar Image",
+      "name": "sidebar_image",
+      "type": "image",
+      "return_format": "url"
+    },
+    {
+      "key": "field_sidebar_title",
+      "label": "Sidebar Title",
+      "name": "sidebar_title",
+      "type": "text"
+    },
+    {
+      "key": "field_more_articles_link",
+      "label": "More Articles Link",
+      "name": "more_articles_link",
+      "type": "url"
+    },
+    {
+      "key": "field_key_points",
+      "label": "Key Points",
+      "name": "key_points",
+      "type": "repeater",
+      "button_label": "Add Key Point",
+      "sub_fields": [
         {
-            "key": "field_post1_image",
-            "label": "Post 1 - Image",
-            "name": "post1_image",
-            "type": "image",
-            "return_format": "array",
-            "preview_size": "medium",
-            "library": "all"
+          "key": "field_key_icon",
+          "label": "Icon (Class or Image)",
+          "name": "key_icon",
+          "type": "text"
         },
         {
-            "key": "field_post1_date",
-            "label": "Post 1 - Date",
-            "name": "post1_date",
-            "type": "text"
-        },
-        {
-            "key": "field_post1_author",
-            "label": "Post 1 - Author",
-            "name": "post1_author",
-            "type": "text"
-        },
-        {
-            "key": "field_post1_title",
-            "label": "Post 1 - Title",
-            "name": "post1_title",
-            "type": "text"
-        },
-        {
-            "key": "field_post1_link",
-            "label": "Post 1 - Link",
-            "name": "post1_link",
-            "type": "url"
-        },
-
-        {
-            "key": "field_post2_image",
-            "label": "Post 2 - Image",
-            "name": "post2_image",
-            "type": "image",
-            "return_format": "array",
-            "preview_size": "medium",
-            "library": "all"
-        },
-        {
-            "key": "field_post2_date",
-            "label": "Post 2 - Date",
-            "name": "post2_date",
-            "type": "text"
-        },
-        {
-            "key": "field_post2_author",
-            "label": "Post 2 - Author",
-            "name": "post2_author",
-            "type": "text"
-        },
-        {
-            "key": "field_post2_title",
-            "label": "Post 2 - Title",
-            "name": "post2_title",
-            "type": "text"
-        },
-        {
-            "key": "field_post2_link",
-            "label": "Post 2 - Link",
-            "name": "post2_link",
-            "type": "url"
-        },
-
-        {
-            "key": "field_post3_image",
-            "label": "Post 3 - Image",
-            "name": "post3_image",
-            "type": "image",
-            "return_format": "array",
-            "preview_size": "medium",
-            "library": "all"
-        },
-        {
-            "key": "field_post3_date",
-            "label": "Post 3 - Date",
-            "name": "post3_date",
-            "type": "text"
-        },
-        {
-            "key": "field_post3_author",
-            "label": "Post 3 - Author",
-            "name": "post3_author",
-            "type": "text"
-        },
-        {
-            "key": "field_post3_title",
-            "label": "Post 3 - Title",
-            "name": "post3_title",
-            "type": "text"
-        },
-        {
-            "key": "field_post3_link",
-            "label": "Post 3 - Link",
-            "name": "post3_link",
-            "type": "url"
-        },
-
-        {
-            "key": "field_post4_image",
-            "label": "Post 4 - Image",
-            "name": "post4_image",
-            "type": "image",
-            "return_format": "array",
-            "preview_size": "medium",
-            "library": "all"
-        },
-        {
-            "key": "field_post4_date",
-            "label": "Post 4 - Date",
-            "name": "post4_date",
-            "type": "text"
-        },
-        {
-            "key": "field_post4_author",
-            "label": "Post 4 - Author",
-            "name": "post4_author",
-            "type": "text"
-        },
-        {
-            "key": "field_post4_title",
-            "label": "Post 4 - Title",
-            "name": "post4_title",
-            "type": "text"
-        },
-        {
-            "key": "field_post4_link",
-            "label": "Post 4 - Link",
-            "name": "post4_link",
-            "type": "url"
-        },
-
-        {
-            "key": "field_feature_title",
-            "label": "Feature - Title",
-            "name": "feature_title",
-            "type": "text"
-        },
-        {
-            "key": "field_feature_excerpt",
-            "label": "Feature - Excerpt",
-            "name": "feature_excerpt",
-            "type": "textarea"
-        },
-        {
-            "key": "field_feature_link",
-            "label": "Feature - Link",
-            "name": "feature_link",
-            "type": "url"
+          "key": "field_key_text",
+          "label": "Key Point Text",
+          "name": "key_text",
+          "type": "text"
         }
-    ],
-    "location": [
-        [
-            {
-                "param": "post_type",
-                "operator": "==",
-                "value": "page"
-            }
-        ]
-    ],
-    "position": "normal",
-    "style": "default",
-    "label_placement": "top",
-    "instruction_placement": "label",
-    "active": true
+      ]
+    }
+  ],
+  "location": [
+    [
+      {
+        "param": "post_type",
+        "operator": "==",
+        "value": "page"
+      }
+    ]
+  ]
 }

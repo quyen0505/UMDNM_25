@@ -63,7 +63,8 @@ function wonderland_site_brand() {
     }
 }
 
-
+// Tắt thanh Admin Bar cho toàn bộ website
+add_filter('show_admin_bar', '__return_false');
 
 /**
  * =============== Classic Editor ===============
@@ -71,25 +72,7 @@ function wonderland_site_brand() {
 add_filter('use_block_editor_for_post', '__return_false', 10);
 add_filter('use_widgets_block_editor', '__return_false');
 
-/**
- * =============== Custom Login Logo ===============
- */
-add_action('login_enqueue_scripts', function () {
-    ?>
-    <style>
-        #login h1 a {
-            background-image: url('<?php echo get_stylesheet_directory_uri(); ?>/assets/images/custom-logo.png');
-            height: 100px;
-            width: 320px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            padding-bottom: 20px;
-        }
-    </style>
-    <?php
-});
-add_filter('login_headerurl', fn() => home_url());
-add_filter('login_headertext', fn() => get_bloginfo('name'));
+
 
 /**
  * =============== CPT: Subscriber ===============
@@ -205,3 +188,17 @@ function wonderland_get_footer_settings_id() {
     $footer_page = get_page_by_title('Footer Settings');
     return $footer_page ? $footer_page->ID : 0;
 }
+
+function theme_enqueue_scripts() {
+    // Swiper CSS & JS
+    wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
+    wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], null, true);
+
+    // Lightbox2 CSS & JS
+    wp_enqueue_style('lightbox-css', 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css');
+    wp_enqueue_script('lightbox-js', 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js',['jquery'], [], null, true);
+
+    // File JS custom cho Swiper
+    wp_enqueue_script('swiper-init', get_template_directory_uri() . '/js/custom-swiper.js', ['swiper-js'], null, true);
+}
+add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');

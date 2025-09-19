@@ -107,3 +107,65 @@ document.addEventListener("DOMContentLoaded", function() {
     toggle.addEventListener("click", () => menu.classList.toggle("active"));
   }
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+  const toggle = document.querySelector(".mobile-menu-toggle");
+  const mobileMenu = document.querySelector(".navbar-mobile");
+
+  toggle.addEventListener("click", function() {
+    mobileMenu.classList.toggle("active");
+  });
+});
+
+/* des slide */
+document.addEventListener("DOMContentLoaded", function () {
+  const el = document.querySelector(".mySwiper");
+  if (!el) return;
+
+  const slideCount = Number(el.dataset.slides || 6);
+
+  const swiper = new Swiper(".mySwiper", {
+    slidesPerView: 3,          // hiển thị 3 ảnh cùng lúc
+    slidesPerGroup: 1,         // trượt từng ảnh
+    spaceBetween: 20,
+    speed: 600,
+
+    // Bật vòng lặp nhưng clone đúng cách
+    loop: true,
+    loopedSlides: slideCount,
+    loopAdditionalSlides: 3,
+    loopPreventsSliding: false,
+    normalizeSlideIndex: true,
+
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false
+    },
+
+    grabCursor: true,
+    simulateTouch: true,
+
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+
+    breakpoints: {
+      0:    { slidesPerView: 1, slidesPerGroup: 1 },
+      768:  { slidesPerView: 2, slidesPerGroup: 1 },
+      1024: { slidesPerView: 3, slidesPerGroup: 1 }
+    },
+
+    on: {
+      init(sw) {
+        // đảm bảo bắt đầu từ slide đầu tiên
+        sw.slideToLoop(0, 0, false);
+      }
+    }
+  });
+});
+

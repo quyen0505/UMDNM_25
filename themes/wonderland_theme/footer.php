@@ -69,6 +69,18 @@ $footer_id   = $footer_page ? $footer_page->ID : 0;
     © <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. All Rights Reserved.
   </div>
 </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const toggle = document.querySelector(".mobile-menu-toggle");
+  const mobileMenu = document.querySelector(".navbar-mobile");
+
+  if (toggle && mobileMenu) {
+    toggle.addEventListener("click", function () {
+      mobileMenu.classList.toggle("active");
+    });
+  }
+});
+</script>
 
 <?php wp_footer(); ?>
 </body>

@@ -1981,3 +1981,6 @@ section.destination-hero {
     margin-right: 0;
   }
 }
+.h2 {
+  align-self: start;
+}

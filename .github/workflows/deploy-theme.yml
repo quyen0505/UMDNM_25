@@ -2,9 +2,9 @@ name: Deploy wp-content to VPS
 
 on:
   push:
-    branches: [ "main" ]           # sửa nếu bạn dùng branch khác
+    branches: [ "main" ]           # đổi nếu bạn dùng branch khác
     paths:
-      - 'wp-content/**'            # CHỈ chạy khi có thay đổi trong wp-content
+      - 'wp-content/**'            # chỉ chạy khi wp-content thay đổi
   workflow_dispatch: {}            # cho phép chạy tay
 
 jobs:
@@ -14,13 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      # (Tuỳ chọn) build front-end cho theme nếu bạn có package.json
-      # - name: Build theme assets
-      #   working-directory: wp-content/themes/wonderland
-      #   run: |
-      #     npm ci
-      #     npm run build
 
       - name: Setup SSH agent
         uses: webfactory/ssh-agent@v0.8.0
@@ -36,20 +29,16 @@ jobs:
       - name: Rsync wp-content (exclude uploads/cache)
         run: |
           RSYNC_EXCLUDES="--exclude 'uploads' --exclude 'cache' --exclude '.git' --exclude '.github' --exclude 'node_modules'"
-          rsync -az --delete \
-            --omit-dir-times --no-perms --no-owner --no-group \
-            --exclude '.git' --exclude '.github' --exclude 'node_modules' \
+          rsync -az --delete $RSYNC_EXCLUDES \
             -e "ssh -p ${{ secrets.SSH_PORT }}" \
-            --rsync-path="sudo rsync" \
-            themes/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}/wp-content/themes/
+            wp-content/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.TARGET_DIR }}/wp-content/
 
-
-      - name: Fix permissions & reload services (optional)
+      - name: Fix permissions & reload services
         run: |
           ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
           sudo chown -R www-data:www-data /var/www/travelblog.id.vn/wonderland/wp-content
           sudo find /var/www/travelblog.id.vn/wonderland/wp-content -type d -exec chmod 755 {} \;
           sudo find /var/www/travelblog.id.vn/wonderland/wp-content -type f -exec chmod 644 {} \;
-          # nếu theme dùng PHP template mới, reload PHP-FPM cho chắc:
           sudo systemctl reload php8.1-fpm || true
+          sudo systemctl reload nginx || true
           EOF

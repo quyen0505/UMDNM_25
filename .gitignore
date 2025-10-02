@@ -1,8 +1,8 @@
-# Ignore uploads and upgrade
+# Ignore uploads & upgrade
 uploads/
 upgrade/
 
-# Ignore cache, backup nếu có
+# Ignore cache & backup
 cache/
 backups/
 
@@ -11,11 +11,25 @@ backups/
 .DS_Store
 Thumbs.db
 
-# Ignore node & build files nếu có (ví dụ nếu bạn dùng npm/yarn trong themes hoặc plugins)
+# Ignore Node & build (nếu có dùng npm/yarn trong themes/plugins)
 node_modules/
 dist/
 build/
 
-# Ignore other WP-specific cache in subdirs
+# Ignore plugin cache bên trong
 plugins/*/cache/
 themes/*/cache/
+
+# Ignore toàn bộ plugins (chỉ giữ theme tự viết)
+plugins/
+
+# Ignore ngôn ngữ & waf
+languages/
+jetpack-waf/
+
+
+# Ignore uploads (media)
+uploads/
+
+# Ignore cache WP
+cache/

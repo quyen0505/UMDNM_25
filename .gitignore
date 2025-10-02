@@ -16,18 +16,6 @@ node_modules/
 dist/
 build/
 
-# Ignore plugin cache bên trong
-plugins/*/cache/
-themes/*/cache/
-
-# Ignore toàn bộ plugins (chỉ giữ theme tự viết)
-plugins/
-
-# Ignore ngôn ngữ & waf
-languages/
-jetpack-waf/
-
-
 # Ignore uploads (media)
 uploads/
 

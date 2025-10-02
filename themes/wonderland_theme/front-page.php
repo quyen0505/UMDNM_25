@@ -40,7 +40,7 @@ get_header();
               <div class="carousel-item <?php echo $i === 0 ? 'active' : ''; ?>">
                 <img src="<?php echo esc_url($slide['url']); ?>"
                      class="d-block w-100"
-                     alt="<?php echo esc_attr($slide['alt'] ?? 'Slide ' . ($i + 1)); ?>"
+                     alt="<?php echo esc_attr($slide['alt'] ?? 'Slide ' . (++$i)); ?>"
                      loading="eager">
               </div>
             <?php endforeach; ?>
@@ -167,7 +167,7 @@ get_header();
             'posts_per_page' => 4,
             'orderby'        => 'date',
             'order'          => 'DESC',
-            'category_name'  => 'featured'
+            'category_name'  => 'featured, featured_vi'
           ];
           $query = new WP_Query($args);
           if ($query->have_posts()) :
@@ -272,8 +272,6 @@ get_header();
     </div>
   </div>
 </section>
-
-    
 
   <!-- Icons section -->
   <section class="home-icons container my-5">

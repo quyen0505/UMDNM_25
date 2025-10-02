@@ -27,6 +27,10 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('swiper', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], '11', true);
     wp_enqueue_script('custom-swiper', get_template_directory_uri() . '/js/custom-swiper.js', ['swiper'], $theme_version, true);
 
+    // Lightbox2
+    wp_enqueue_style('lightbox-css', 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css');
+    wp_enqueue_script('lightbox-js', 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js',['jquery'], null, true);
+
     // Custom CSS
     wp_enqueue_style('wonderland-custom', get_template_directory_uri() . '/custom.css', ['bootstrap-css', 'fontawesome'], $theme_version);
     wp_enqueue_style('wonderland-style', get_stylesheet_uri(), [], $theme_version);
@@ -53,6 +57,22 @@ add_action('after_setup_theme', function () {
 });
 
 /**
+ * =============== Sidebar (Fix Customizer trắng) ===============
+ */
+function wonderland_register_sidebars() {
+    register_sidebar([
+        'name'          => __( 'Sidebar', 'wonderland_theme' ),
+        'id'            => 'sidebar-1',
+        'description'   => __( 'Add widgets here to appear in your sidebar.', 'wonderland_theme' ),
+        'before_widget' => '<section id="%1$s" class="widget %2$s">',
+        'after_widget'  => '</section>',
+        'before_title'  => '<h2 class="widget-title">',
+        'after_title'   => '</h2>',
+    ]);
+}
+add_action('widgets_init', 'wonderland_register_sidebars');
+
+/**
  * =============== Site Brand ===============
  */
 function wonderland_site_brand() {
@@ -63,7 +83,7 @@ function wonderland_site_brand() {
     }
 }
 
-// Tắt thanh Admin Bar cho toàn bộ website
+// Tắt Admin Bar ngoài frontend
 add_filter('show_admin_bar', '__return_false');
 
 /**
@@ -71,8 +91,6 @@ add_filter('show_admin_bar', '__return_false');
  */
 add_filter('use_block_editor_for_post', '__return_false', 10);
 add_filter('use_widgets_block_editor', '__return_false');
-
-
 
 /**
  * =============== CPT: Subscriber ===============
@@ -90,15 +108,19 @@ add_action('init', function () {
     ]);
 });
 
-// ACF form placeholders
-add_filter('acf/load_field/name=name_12', function ($field) {
-    $field['placeholder'] = 'Name';
-    return $field;
-});
-add_filter('acf/load_field/name=email_12', function ($field) {
-    $field['placeholder'] = 'E-mail';
-    return $field;
-});
+/**
+ * =============== ACF Safe Placeholders ===============
+ */
+if (function_exists('acf_add_local_field_group')) {
+    add_filter('acf/load_field/name=name_12', function ($field) {
+        $field['placeholder'] = 'Name';
+        return $field;
+    });
+    add_filter('acf/load_field/name=email_12', function ($field) {
+        $field['placeholder'] = 'E-mail';
+        return $field;
+    });
+}
 
 /**
  * =============== CPT: Travel Items ===============
@@ -143,9 +165,9 @@ function show_travel_items() {
         echo '<div class="travel-items">';
         while ($query->have_posts()) {
             $query->the_post();
-            $price  = get_field('price');
-            $rating = intval(get_field('rating'));
-            $hover  = get_field('hover_image'); // ACF field cho ảnh hover
+            $price  = function_exists('get_field') ? get_field('price') : '';
+            $rating = function_exists('get_field') ? intval(get_field('rating')) : 0;
+            $hover  = function_exists('get_field') ? get_field('hover_image') : null;
             ?>
             <div class="travel-item">
                 <div class="travel-item-image">
@@ -163,7 +185,7 @@ function show_travel_items() {
                 </div>
 
                 <!-- Giá -->
-                <p class="price">$<?php echo esc_html($price); ?></p>
+                <p class="price"><?php echo $price ? '$' . esc_html($price) : ''; ?></p>
 
                 <!-- Tên sp -->
                 <h3 class="title"><?php the_title(); ?></h3>
@@ -184,21 +206,46 @@ function show_travel_items() {
 }
 add_shortcode('travel_items', 'show_travel_items');
 
-function wonderland_get_footer_settings_id() {
-    $footer_page = get_page_by_title('Footer Settings');
-    return $footer_page ? $footer_page->ID : 0;
-}
-
-function theme_enqueue_scripts() {
-    // Swiper CSS & JS
+/**  */
+add_action('wp_enqueue_scripts', function () {
+    // Swiper
     wp_enqueue_style('swiper-css', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css');
     wp_enqueue_script('swiper-js', 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js', [], null, true);
 
-    // Lightbox2 CSS & JS
-    wp_enqueue_style('lightbox-css', 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css');
-    wp_enqueue_script('lightbox-js', 'https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js',['jquery'], [], null, true);
+    // Vanilla Tilt
+    wp_enqueue_script('vanilla-tilt', 'https://cdn.jsdelivr.net/npm/vanilla-tilt@1.8.0/dist/vanilla-tilt.min.js', [], null, true);
 
-    // File JS custom cho Swiper
-    wp_enqueue_script('swiper-init', get_template_directory_uri() . '/js/custom-swiper.js', ['swiper-js'], null, true);
-}
-add_action('wp_enqueue_scripts', 'theme_enqueue_scripts');
+    // Init JS
+    wp_add_inline_script('swiper-js', "
+      document.addEventListener('DOMContentLoaded', function() {
+        const swiper = new Swiper('.blogSwiper', {
+          slidesPerView: 3,
+          centeredSlides: true,
+          spaceBetween: 30,
+          loop: true,
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
+        });
+
+        VanillaTilt.init(document.querySelectorAll('.post-card'), {
+          max: 15,
+          speed: 400,
+          glare: true,
+          'max-glare': 0.2,
+        });
+      });
+    ");
+});
+/* bài post */
+add_action('wp_enqueue_scripts', function () {
+    if (is_single()) { // chỉ load khi xem 1 bài viết
+        wp_enqueue_style(
+            'wonderland-single-post',
+            get_template_directory_uri() . '/assets/css/single-post.css',
+            [],
+            '1.0'
+        );
+    }
+});

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   new Swiper(".featured-slider", {
     slidesPerView: 3,
     spaceBetween: 30,
-    loop: true, // Cho phép lặp vô hạn
+    loop: true,
     navigation: {
       nextEl: ".swiper-button-next",
       prevEl: ".swiper-button-prev",
@@ -86,8 +86,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const logo = document.querySelector(".site-branding img");
   if (!logo) return;
 
-  const defaultLogo = logo.src; // logo gốc trong WP
-  const scrollLogo = "https://wanderland.qodeinteractive.com/wp-content/uploads/2019/10/logo-dark-img-01.png"; // link logo khi scroll
+  const defaultLogo = logo.src;
+  const scrollLogo = "https://wanderland.qodeinteractive.com/wp-content/uploads/2019/10/logo-dark-img-01.png"; 
 
   window.addEventListener("scroll", function() {
     if (window.scrollY > 50) {
@@ -169,3 +169,21 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+/* slide post */
+document.querySelectorAll(".post-card").forEach(card => {
+  card.addEventListener("mousemove", e => {
+    const img = card.querySelector(".card-img");
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * 5;
+    const rotateY = ((x - centerX) / centerX) * -5;
+    img.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+  });
+  card.addEventListener("mouseleave", () => {
+    const img = card.querySelector(".card-img");
+    img.style.transform = "rotateX(0) rotateY(0) scale(1)";
+  });
+});

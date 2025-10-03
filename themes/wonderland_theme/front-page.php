@@ -167,7 +167,7 @@ get_header();
             'posts_per_page' => 4,
             'orderby'        => 'date',
             'order'          => 'DESC',
-            'category_name'  => 'featured, featured_vi'
+            'category_name'  => 'featured'
           ];
           $query = new WP_Query($args);
           if ($query->have_posts()) :
